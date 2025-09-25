@@ -502,7 +502,6 @@ public class InboundControllerImpl implements InOutboundController{
                 List<List<String>> list = inboundService.showItemBillData(requestId);
 
                 if ((vo == null) || (list == null)) {
-                    System.out.println("vo list null");
                     rtn = -1;
                 } else {
                     printBill(vo, list);
@@ -530,17 +529,18 @@ public class InboundControllerImpl implements InOutboundController{
         System.out.printf(
                 """
                 ============================================================
-                 요청번호 |  입고일자  |  창고위치  |                 |  요청자  |
-                   %8d       %11s       %10d                          %8s
+                 요청번호 |   입고일자   | 창고위치 |               |   요청자   |
+                ------------------------------------------------------------
+                 %4d      %10s    %2d                        %-8s
                 
+                  순번   |            물품이름            |  수량  |   단가    |
                 """, vo.getInRequestId(), outformat.format(vo.getInDate()), vo.getWId(), vo.getUName()
         );
         int totalPrice = 0;
 
         for (List<String> item : list) {
             System.out.printf("""
-                 순번 |             물품이름               |  수량  |   단가   |
-                 %4s  \t\t\t\t\t      %35s      \t\t\t\t\t      %3s \t   %10s
+                %4s  %25s\t   \t%4s  %10s
                 """, item.get(0), item.get(1), item.get(2), item.get(3)
             );
             totalPrice += (Integer.parseInt(item.get(2)) * Integer.parseInt(item.get(3)));
@@ -548,7 +548,7 @@ public class InboundControllerImpl implements InOutboundController{
 
         System.out.printf("""
                                                                  | 총 금액  |
-                                                                    %10d
+                                                              %10d
                 """, totalPrice);
     }
 
